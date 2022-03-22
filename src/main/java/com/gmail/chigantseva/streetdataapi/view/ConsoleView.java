@@ -1,6 +1,7 @@
 package com.gmail.chigantseva.streetdataapi.view;
 
 import com.gmail.chigantseva.streetdataapi.controller.StreetDataController;
+import com.gmail.chigantseva.streetdataapi.util.Util;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -23,6 +24,11 @@ public class ConsoleView implements View, InitializingBean {
                 query = reader.readLine();
 
                 if (query.equals("q")) System.exit(0);
+
+                if (Util.isWindows()) {
+                    byte[] bytes = query.getBytes("windows-1251");
+                    query = new String(bytes, "IBM866");
+                }
 
                 System.out.println(controller.getCountOfStreets(query));
             }
